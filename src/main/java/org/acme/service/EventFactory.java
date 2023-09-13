@@ -32,7 +32,8 @@ public class EventFactory {
         return CreateRequest.of(
                 builder -> builder
                         .index(elasticConfigs.indexName())
-                        .id(event.getEventId()).document(event)
+                        .id(event.getEventId())
+                        .document(event)
         );
     }
 
