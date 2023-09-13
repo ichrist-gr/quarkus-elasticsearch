@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @ApplicationScoped
-public class ElasticService {
+public class ElasticsearchService {
     private final ElasticsearchClient elasticsearchClient;
 
     @Inject
-    public ElasticService(ElasticsearchClient elasticsearchClient) {
+    public ElasticsearchService(ElasticsearchClient elasticsearchClient) {
         this.elasticsearchClient = elasticsearchClient;
     }
 

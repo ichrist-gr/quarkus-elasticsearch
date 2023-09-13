@@ -20,24 +20,36 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Dependent
-public class ElasticFactory {
+public class EventFactory {
     private final ElasticConfigs elasticConfigs;
 
     @Inject
-    public ElasticFactory(ElasticConfigs elasticConfigs) {
+    public EventFactory(ElasticConfigs elasticConfigs) {
         this.elasticConfigs = elasticConfigs;
     }
 
     public CreateRequest<Event> createEventRequest(Event event) {
-        return CreateRequest.of(eventBuilder -> eventBuilder.index(elasticConfigs.indexName()).id(event.getEventId()).document(event));
+        return CreateRequest.of(
+                builder -> builder
+                        .index(elasticConfigs.indexName())
+                        .id(event.getEventId()).document(event)
+        );
     }
 
     public SearchRequest searchEventsRequest() {
-        return SearchRequest.of(b -> b.index(elasticConfigs.indexName()).query(QueryBuilders.matchAll().build()._toQuery()));
+        return SearchRequest.of(
+                builder -> builder
+                        .index(elasticConfigs.indexName())
+                        .query(QueryBuilders.matchAll().build()._toQuery())
+        );
     }
 
     public SearchRequest searchEventByEventIdRequest(String eventId) {
-        return SearchRequest.of(b -> b.index(elasticConfigs.indexName()).query(QueryBuilders.match().field("eventId").query(FieldValue.of(eventId)).build()._toQuery()));
+        return SearchRequest.of(
+                builder -> builder
+                        .index(elasticConfigs.indexName())
+                        .query(QueryBuilders.match().field("eventId").query(FieldValue.of(eventId)).build()._toQuery())
+        );
     }
 
     public List<Event> extractEventList(SearchResponse<Event> response) {
@@ -64,6 +76,12 @@ public class ElasticFactory {
     }
 
     public UpdateRequest<Event, Object> updateEventRequest(Event event) {
-        return UpdateRequest.of(builder -> builder.index(elasticConfigs.indexName()).id(event.getEventId()).doc(event).docAsUpsert(true));
+        return UpdateRequest.of(
+                builder -> builder
+                        .index(elasticConfigs.indexName())
+                        .id(event.getEventId())
+                        .doc(event)
+                        .docAsUpsert(true)
+        );
     }
 }
