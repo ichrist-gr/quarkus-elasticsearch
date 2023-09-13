@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Dependent
 public class ElasticFactory {
@@ -48,7 +47,8 @@ public class ElasticFactory {
                 .stream()
                 .flatMap(Collection::stream)
                 .map(Hit::source)
-                .collect(Collectors.toList());
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     public Event extractEvent(SearchResponse<Event> response) {
