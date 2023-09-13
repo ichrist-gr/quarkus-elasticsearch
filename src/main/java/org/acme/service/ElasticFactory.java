@@ -1,0 +1,69 @@
+package org.acme.service;
+
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
+import co.elastic.clients.elasticsearch.core.CreateRequest;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.UpdateRequest;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
+import co.elastic.clients.elasticsearch.core.search.ResponseBody;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import org.acme.config.ElasticConfigs;
+import org.acme.model.Event;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Dependent
+public class ElasticFactory {
+    private final ElasticConfigs elasticConfigs;
+
+    @Inject
+    public ElasticFactory(ElasticConfigs elasticConfigs) {
+        this.elasticConfigs = elasticConfigs;
+    }
+
+    public CreateRequest<Event> createEventRequest(Event event) {
+        return CreateRequest.of(eventBuilder -> eventBuilder.index(elasticConfigs.indexName()).id(event.getEventId()).document(event));
+    }
+
+    public SearchRequest searchEventsRequest() {
+        return SearchRequest.of(b -> b.index(elasticConfigs.indexName()).query(QueryBuilders.matchAll().build()._toQuery()));
+    }
+
+    public SearchRequest searchEventByEventIdRequest(String eventId) {
+        return SearchRequest.of(b -> b.index(elasticConfigs.indexName()).query(QueryBuilders.match().field("eventId").query(FieldValue.of(eventId)).build()._toQuery()));
+    }
+
+    public List<Event> extractEventList(SearchResponse<Event> response) {
+        return Optional.ofNullable(response)
+                .map(ResponseBody::hits)
+                .map(HitsMetadata::hits)
+                .stream()
+                .flatMap(Collection::stream)
+                .map(Hit::source)
+                .collect(Collectors.toList());
+    }
+
+    public Event extractEvent(SearchResponse<Event> response) {
+        return Optional.ofNullable(response)
+                .map(ResponseBody::hits)
+                .map(HitsMetadata::hits)
+                .stream()
+                .flatMap(Collection::stream)
+                .map(Hit::source)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public UpdateRequest<Event, Object> updateEventRequest(Event event) {
+        return UpdateRequest.of(builder -> builder.index(elasticConfigs.indexName()).id(event.getEventId()).doc(event).docAsUpsert(true));
+    }
+}

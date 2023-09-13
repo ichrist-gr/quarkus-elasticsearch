@@ -1,0 +1,39 @@
+2023-09-12 16:52:53,634 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [io.sma.rea.mes.kafka] (Quarkus Main Thread) SRMSG18229: Configured topics for channel 'eventIn': [event]
+2023-09-12 16:52:53,653 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [io.sma.rea.mes.kafka] (Quarkus Main Thread) SRMSG18214: Key deserializer omitted, using String as default
+2023-09-12 16:52:54,367 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [io.sma.rea.mes.kafka] (smallrye-kafka-producer-thread-0) SRMSG18258: Kafka producer kafka-producer-eventOut, connected to Kafka brokers 'localhost:9092', is configured to write records to 'event'
+2023-09-12 16:52:54,414 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [io.sma.rea.mes.kafka] (smallrye-kafka-consumer-thread-0) SRMSG18257: Kafka consumer kafka-consumer-eventIn, connected to Kafka brokers 'localhost:9092', belongs to the 'quarkus-elasticsearch' consumer group and is configured to poll records from [event]
+2023-09-12 16:52:54,554 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [io.quarkus] (Quarkus Main Thread) quarkus-elasticsearch 1.0.0 on JVM (powered by Quarkus 3.3.2) started in 29.311s. Listening on: http://localhost:8080
+2023-09-12 16:52:54,555 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2023-09-12 16:52:54,556 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, elasticsearch-java-client, elasticsearch-rest-client, kafka-client, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, vertx]
+2023-09-12 16:53:03,140 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [org.acm.ser.EventService] (vert.x-eventloop-thread-1) Retrieving all indexes
+2023-09-12 16:53:04,132 iil3155 quarkus-elasticsearch-dev.jar[4892] ERROR [io.qua.ver.htt.run.QuarkusErrorHandler] (vert.x-eventloop-thread-1) HTTP Request to /event/retrieve/all/indexes failed, error id: 269c7f3f-dd3c-40b4-902e-ed66cde45d51-1: co.elastic.clients.elasticsearch._types.ElasticsearchException: [es/indices.analyze] failed: [action_request_validation_exception] Validation Failed: 1: text is missing;
+	at co.elastic.clients.transport.ElasticsearchTransportBase.getApiResponse(ElasticsearchTransportBase.java:286)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.performRequest(ElasticsearchTransportBase.java:111)
+	at co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient.analyze(ElasticsearchIndicesClient.java:136)
+	at org.acme.service.ElasticService.lambda$retrieveIndexes$2(ElasticService.java:48)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:373)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165)
+
+2023-09-12 16:53:22,246 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [org.acm.ser.EventService] (vert.x-eventloop-thread-0) Publishing event: 3
+2023-09-12 16:53:22,314 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [org.acm.mes.KafkaProducer] (smallrye-kafka-producer-thread-0) Successfully published event: 3
+2023-09-12 16:53:22,319 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [io.sma.rea.mes.kafka] (vert.x-eventloop-thread-2) SRMSG18256: Initialize record store for topic-partition 'event-0' at position 94.
+2023-09-12 16:53:22,324 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [org.acm.mes.KafkaConsumer] (vert.x-eventloop-thread-2) Received event: 3
+2023-09-12 16:53:24,181 iil3155 quarkus-elasticsearch-dev.jar[4892] INFO  [org.acm.ser.EventService] (vert.x-eventloop-thread-0) Retrieving all indexes
+2023-09-12 16:53:24,189 iil3155 quarkus-elasticsearch-dev.jar[4892] ERROR [io.qua.ver.htt.run.QuarkusErrorHandler] (vert.x-eventloop-thread-0) HTTP Request to /event/retrieve/all/indexes failed, error id: 269c7f3f-dd3c-40b4-902e-ed66cde45d51-2: co.elastic.clients.elasticsearch._types.ElasticsearchException: [es/indices.analyze] failed: [action_request_validation_exception] Validation Failed: 1: text is missing;
+	at co.elastic.clients.transport.ElasticsearchTransportBase.getApiResponse(ElasticsearchTransportBase.java:286)
+	at co.elastic.clients.transport.ElasticsearchTransportBase.performRequest(ElasticsearchTransportBase.java:111)
+	at co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient.analyze(ElasticsearchIndicesClient.java:136)
+	at org.acme.service.ElasticService.lambda$retrieveIndexes$2(ElasticService.java:48)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:373)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165)
+

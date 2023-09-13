@@ -1,0 +1,13 @@
+2023-09-12 16:50:32,271 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [io.sma.rea.mes.kafka] (Quarkus Main Thread) SRMSG18229: Configured topics for channel 'eventIn': [event]
+2023-09-12 16:50:32,291 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [io.sma.rea.mes.kafka] (Quarkus Main Thread) SRMSG18214: Key deserializer omitted, using String as default
+2023-09-12 16:50:33,019 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [io.sma.rea.mes.kafka] (smallrye-kafka-producer-thread-0) SRMSG18258: Kafka producer kafka-producer-eventOut, connected to Kafka brokers 'localhost:9092', is configured to write records to 'event'
+2023-09-12 16:50:33,078 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [io.sma.rea.mes.kafka] (smallrye-kafka-consumer-thread-0) SRMSG18257: Kafka consumer kafka-consumer-eventIn, connected to Kafka brokers 'localhost:9092', belongs to the 'quarkus-elasticsearch' consumer group and is configured to poll records from [event]
+2023-09-12 16:50:33,220 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [io.quarkus] (Quarkus Main Thread) quarkus-elasticsearch 1.0.0 on JVM (powered by Quarkus 3.3.2) started in 23.507s. Listening on: http://localhost:8080
+2023-09-12 16:50:33,222 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2023-09-12 16:50:33,222 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, elasticsearch-java-client, elasticsearch-rest-client, kafka-client, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-reactive-messaging, smallrye-reactive-messaging-kafka, vertx]
+2023-09-12 16:50:36,711 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [org.acm.ser.EventService] (vert.x-eventloop-thread-0) Retrieving all indexes
+2023-09-12 16:50:39,731 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [org.acm.ser.EventService] (vert.x-eventloop-thread-0) Publishing event: 3
+2023-09-12 16:50:39,802 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [org.acm.mes.KafkaProducer] (smallrye-kafka-producer-thread-0) Successfully published event: 3
+2023-09-12 16:50:39,807 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [io.sma.rea.mes.kafka] (vert.x-eventloop-thread-2) SRMSG18256: Initialize record store for topic-partition 'event-0' at position 92.
+2023-09-12 16:50:39,812 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [org.acm.mes.KafkaConsumer] (vert.x-eventloop-thread-2) Received event: 3
+2023-09-12 16:50:42,127 iil3155 quarkus-elasticsearch-dev.jar[18144] INFO  [org.acm.ser.EventService] (vert.x-eventloop-thread-0) Retrieving all indexes
