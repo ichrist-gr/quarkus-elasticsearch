@@ -4,6 +4,7 @@ public class Event {
     private String eventType;
     private String eventId;
     private String eventTime;
+    private String indexName;
 
     public String getEventType() {
         return eventType;
@@ -29,6 +30,14 @@ public class Event {
         this.eventTime = eventTime;
     }
 
+    public String getIndexName() {
+        return indexName;
+    }
+
+    public void setIndexName(String indexName) {
+        this.indexName = indexName;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb;
@@ -36,6 +45,7 @@ public class Event {
         sb.append("eventType='").append(eventType).append('\'');
         sb.append(", eventId='").append(eventId).append('\'');
         sb.append(", eventTime='").append(eventTime).append('\'');
+        sb.append(", indexName='").append(indexName).append('\'');
         sb.append('}');
         return sb.toString();
     }
