@@ -1,4 +1,4 @@
-package org.acme.service;
+package org.acme.service.elasticsearch;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.*;

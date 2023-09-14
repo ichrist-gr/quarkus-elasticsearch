@@ -11,6 +11,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import org.acme.messaging.KafkaProducer;
 import org.acme.model.Event;
+import org.acme.service.elasticsearch.ElasticsearchQueryFactory;
+import org.acme.service.elasticsearch.ElasticsearchService;
 
 import java.util.List;
 
@@ -18,15 +20,18 @@ import java.util.List;
 public class EventService {
     private final KafkaProducer kafkaProducer;
     private final ElasticsearchService elasticsearchService;
-    private final EventFactory eventFactory;
+    private final ElasticsearchQueryFactory elasticsearchQueryFactory;
+    private final EventFactoryService eventFactoryService;
 
     @Inject
     public EventService(KafkaProducer kafkaProducer,
                         ElasticsearchService elasticsearchService,
-                        EventFactory eventFactory) {
+                        ElasticsearchQueryFactory elasticsearchQueryFactory,
+                        EventFactoryService eventFactoryService) {
         this.kafkaProducer = kafkaProducer;
         this.elasticsearchService = elasticsearchService;
-        this.eventFactory = eventFactory;
+        this.elasticsearchQueryFactory = elasticsearchQueryFactory;
+        this.eventFactoryService = eventFactoryService;
     }
 
     public Uni<Response> createEvent(Event event) {
@@ -40,32 +45,32 @@ public class EventService {
     public Uni<List<Event>> retrieveEvents() {
         Log.info("Retrieving all events");
 
-        SearchRequest searchRequest = eventFactory.searchEventsRequest();
+        SearchRequest searchRequest = elasticsearchQueryFactory.searchEventsRequest();
         return Uni.createFrom().completionStage(() -> elasticsearchService.searchOperation(searchRequest))
                 .onItem()
-                .transform(eventFactory::extractEventList);
+                .transform(eventFactoryService::extractEventList);
     }
 
     public Uni<Event> retrieveEventByEventId(String eventId) {
         Log.info("Retrieving event: " + eventId);
 
-        SearchRequest searchRequest = eventFactory.searchEventByEventIdRequest(eventId);
+        SearchRequest searchRequest = elasticsearchQueryFactory.searchEventByEventIdRequest(eventId);
         return Uni.createFrom().completionStage(() -> elasticsearchService.searchOperation(searchRequest))
                 .onItem()
-                .transform(eventFactory::extractEvent);
+                .transform(eventFactoryService::extractEvent);
     }
 
     public Uni<UpdateResponse<Event>> updateEvent(Event event) {
         Log.info("Updating event: " + event.getEventId());
 
-        UpdateRequest<Event, Object> updateRequest = eventFactory.updateEventRequest(event);
+        UpdateRequest<Event, Object> updateRequest = elasticsearchQueryFactory.updateEventRequest(event);
         return Uni.createFrom().completionStage(() -> elasticsearchService.updateEvent(updateRequest));
     }
 
     public Uni<Response> deleteEventByEventId(String eventId) {
         Log.info("Deleting event: " + eventId);
 
-        DeleteRequest deleteRequest = eventFactory.deleteEventByEventIdRequest(eventId);
+        DeleteRequest deleteRequest = elasticsearchQueryFactory.deleteEventByEventIdRequest(eventId);
         return Uni.createFrom().completionStage(() -> elasticsearchService.deleteOperation(deleteRequest))
                 .onItem()
                 .transform(deleteResponse -> Response.ok().build());

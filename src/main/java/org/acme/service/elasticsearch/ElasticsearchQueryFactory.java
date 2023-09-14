@@ -1,27 +1,22 @@
-package org.acme.service;
+package org.acme.service.elasticsearch;
 
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
-import co.elastic.clients.elasticsearch.core.*;
-import co.elastic.clients.elasticsearch.core.search.Hit;
-import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
-import co.elastic.clients.elasticsearch.core.search.ResponseBody;
+import co.elastic.clients.elasticsearch.core.CreateRequest;
+import co.elastic.clients.elasticsearch.core.DeleteRequest;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.UpdateRequest;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import org.acme.config.ElasticConfigs;
 import org.acme.model.Event;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 @Dependent
-public class EventFactory {
+public class ElasticsearchQueryFactory {
     private final ElasticConfigs elasticConfigs;
 
     @Inject
-    public EventFactory(ElasticConfigs elasticConfigs) {
+    public ElasticsearchQueryFactory(ElasticConfigs elasticConfigs) {
         this.elasticConfigs = elasticConfigs;
     }
 
@@ -48,29 +43,6 @@ public class EventFactory {
                         .index(elasticConfigs.indexName())
                         .query(QueryBuilders.match().field("eventId").query(FieldValue.of(eventId)).build()._toQuery())
         );
-    }
-
-    public List<Event> extractEventList(SearchResponse<Event> response) {
-        return Optional.ofNullable(response)
-                .map(ResponseBody::hits)
-                .map(HitsMetadata::hits)
-                .stream()
-                .flatMap(Collection::stream)
-                .map(Hit::source)
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-    public Event extractEvent(SearchResponse<Event> response) {
-        return Optional.ofNullable(response)
-                .map(ResponseBody::hits)
-                .map(HitsMetadata::hits)
-                .stream()
-                .flatMap(Collection::stream)
-                .map(Hit::source)
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
     }
 
     public UpdateRequest<Event, Object> updateEventRequest(Event event) {
