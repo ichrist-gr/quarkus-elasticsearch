@@ -49,4 +49,14 @@ public class ElasticsearchService {
             }
         });
     }
+
+    public CompletableFuture<DeleteResponse> deleteOperation(DeleteRequest deleteRequest) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return elasticsearchClient.delete(deleteRequest);
+            } catch (IOException e) {
+                return null;
+            }
+        });
+    }
 }

@@ -53,4 +53,12 @@ public class EventResource {
     public Uni<UpdateResponse<Event>> retrieveIndexes(Event event) {
         return eventService.updateEvent(event);
     }
+
+    @DELETE
+    @Path("/delete/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Uni<Response> deleteEventByEventId(@RestPath("id") String eventId) {
+        return eventService.deleteEventByEventId(eventId);
+    }
 }

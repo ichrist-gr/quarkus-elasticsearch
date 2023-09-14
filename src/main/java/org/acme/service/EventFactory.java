@@ -2,10 +2,7 @@ package org.acme.service;
 
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
-import co.elastic.clients.elasticsearch.core.CreateRequest;
-import co.elastic.clients.elasticsearch.core.SearchRequest;
-import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.UpdateRequest;
+import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
 import co.elastic.clients.elasticsearch.core.search.ResponseBody;
@@ -83,6 +80,14 @@ public class EventFactory {
                         .id(event.getEventId())
                         .doc(event)
                         .docAsUpsert(true)
+        );
+    }
+
+    public DeleteRequest deleteEventByEventIdRequest(String eventId) {
+        return DeleteRequest.of(
+                builder -> builder
+                        .index(elasticConfigs.indexName())
+                        .id(eventId)
         );
     }
 }

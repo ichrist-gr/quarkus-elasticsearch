@@ -1,5 +1,6 @@
 package org.acme.service;
 
+import co.elastic.clients.elasticsearch.core.DeleteRequest;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.UpdateRequest;
 import co.elastic.clients.elasticsearch.core.UpdateResponse;
@@ -59,5 +60,14 @@ public class EventService {
 
         UpdateRequest<Event, Object> updateRequest = eventFactory.updateEventRequest(event);
         return Uni.createFrom().completionStage(() -> elasticsearchService.updateEvent(updateRequest));
+    }
+
+    public Uni<Response> deleteEventByEventId(String eventId) {
+        Log.info("Deleting event: " + eventId);
+
+        DeleteRequest deleteRequest = eventFactory.deleteEventByEventIdRequest(eventId);
+        return Uni.createFrom().completionStage(() -> elasticsearchService.deleteOperation(deleteRequest))
+                .onItem()
+                .transform(deleteResponse -> Response.ok().build());
     }
 }
