@@ -4,12 +4,14 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.acme.logging.ElasticQueryLogging;
 import org.acme.model.Event;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @ApplicationScoped
+@ElasticQueryLogging
 public class ElasticsearchService {
     private final ElasticsearchClient elasticsearchClient;
 
