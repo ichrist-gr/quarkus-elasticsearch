@@ -1,0 +1,110 @@
+---
+openapi: 3.0.3
+info:
+  title: quarkus-elasticsearch API
+  version: 1.0.0
+paths:
+  /event/create:
+    post:
+      tags:
+        - Event Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /event/delete/{id}:
+    delete:
+      tags:
+        - Event Resource
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /event/retrieve:
+    get:
+      tags:
+        - Event Resource
+      parameters:
+        - name: index
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+  /event/retrieve/{id}:
+    get:
+      tags:
+        - Event Resource
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+  /event/update:
+    put:
+      tags:
+        - Event Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        eventType:
+          type: string
+        eventId:
+          type: string
+        eventTime:
+          type: string
+        indexName:
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: http
+      description: Authentication
+      scheme: basic
